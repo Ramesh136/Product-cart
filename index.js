@@ -86,34 +86,37 @@ function createProductCard(product) {
 }
 
 function addToCart(productId) {
-console.log(products)
+
 let exist = cart.find((p)=>p.product.id == productId)
 if(exist){
     cart[cart.indexOf(exist)].quantity++
-    console.log(cart)
+    
   displayCart();
 return
 }
   const product = products.find(p => p.id == productId);
-  console.log(product)
+
   cart.push({product,quantity :1});
   displayCart();
 }
 
 function displayCart() {
   const cartContainer = document.getElementById("cart");
-  console.log(cart)
+
   cartContainer.innerHTML = ""; // Clear existing cart items
   cart.forEach((product) => {
-    cartContainer.innerHTML += `<div class="cart-item"><div>${
+    cartContainer.innerHTML += `<div class="cart-item" id="cart-item">${
       product.product.name
-    } - $${product.product.price.toFixed(2)} x ${product.quantity} </div><button class="remove-item" id="remove-item">X</button></div>`;
+    } - $${product.product.price.toFixed(2)} x ${product.quantity}<button class="remove-item" id="remove-item">X</button></div>`;
   });
   const total = cart.reduce((total,product)=>{
     return total+(product.quantity*product.product.price)
   },0)
-  document.getElementById("total").innerText = `Total - $${total.toFixed(3)}`;
-  console.log(total)
+  document.getElementById("total").innerText = `Total - $${total.toFixed(3)}`
+  document.getElementById("average").innerText = `Average - $${(
+    total / cart.length
+  ).toFixed(3)}`;
+
 }
 
 const productContainer = document.getElementById("product-container");
@@ -122,17 +125,37 @@ products.forEach((product) => {
 });
 
 document.getElementById("total").innerText = `Total - $0`;
+document.getElementById("average").innerText = `$0`;
 
 document.getElementById("clear-cart").addEventListener("click",()=>{
     cart = []
   const cartContainer = document.getElementById("cart");
   cartContainer.innerHTML = ""; // Clear existing cart items
   document.getElementById("total").innerText = `Total - $0`;
+  document.getElementById("average").innerText = `$0`;
 })
 
-document.body.addEventListener("click",(e)=>{
-    console.log(e)
+document.getElementById("cart").addEventListener("click",(e)=>{
     if (e.target.className === "remove-item") {
-      console.log("cancel button clicked")
+        let value = e.target.parentNode.innerHTML.split(" -")[0];
+       let found = cart.find(
+         (e) => e.product.name === value
+       );
+       if(found){
+        cart.splice(cart.indexOf(found),1)
+        displayCart()
+       }
     }
+});
+
+document.getElementsByClassName("sort")[0].addEventListener("click",()=>{
+    
+    cart.sort((a,b)=>a.product.price-b.product.price)
+    displayCart()
+})
+
+document.getElementsByClassName("sort")[1].addEventListener("click", () => {
+  
+  cart.sort((a, b) => b.product.price - a.product.price);
+  displayCart();
 });
