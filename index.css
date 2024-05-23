@@ -72,17 +72,19 @@ body {
 
 .cart-item {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    margin: 10px 0;
+    margin-left: 80px;
+    margin-top: 10px;
+    /* margin: 10px; */
     width:max-content
 }
 
 .cart {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     width: 100%;
     padding: 20px;
 }
