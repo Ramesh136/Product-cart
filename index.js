@@ -113,6 +113,10 @@ function displayCart() {
     return total+(product.quantity*product.product.price)
   },0)
   document.getElementById("total").innerText = `Total - $${total.toFixed(3)}`
+  if(cart.length===0){
+    document.getElementById("average").innerText = `$0`;
+    return
+  }
   document.getElementById("average").innerText = `Average - $${(
     total / cart.length
   ).toFixed(3)}`;
